@@ -1,6 +1,5 @@
 import React from 'react';
 import Particles from 'react-tsparticles';
-var url = require('url');
 
 
 
