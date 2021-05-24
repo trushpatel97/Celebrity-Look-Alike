@@ -3,6 +3,7 @@ import Clarifai from 'clarifai';
 import './App.css';
 import Navigation from './components/Navigation/Navigation';
 import ParticlesJS from './components/Particles/Particles';
+import Logo from './components/Logo/Logo';
 import 'tachyons';
 var url = require('url');
 
@@ -28,7 +29,7 @@ class App extends Component {
       <div className="App">
         <Navigation/>
         <ParticlesJS/>
-          
+        <Logo/>
           {/*<Logo/>
           <ImageLinkForm/>
           <CelebrityRecognition/>*/}
