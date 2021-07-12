@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import Clarifai from 'clarifai';
 import './App.css';
 import Navigation from './components/Navigation/Navigation.js';
 import ParticlesJS from './components/Particles/Particles.js';
@@ -12,9 +11,7 @@ import Rank from './components/Rank/Rank';
 import 'tachyons';
 
 
-const app = new Clarifai.App({
-  apiKey: "4a029d6b296d4889b93d1c2bf9519031",
- });
+
 
 const titleCase = (str) =>{
   var splitStr = str.toLowerCase().split(' ');
@@ -23,23 +20,25 @@ const titleCase = (str) =>{
    }
    return splitStr.join(' ');
 }
+const initialState = {
+  input: '',
+  imageUrl: '',
+  box: {},
+  route: 'signin',
+  isSignedIn: false,
+  celebName: {},
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
+}
 class App extends Component {
   constructor(){
     super();
-    this.state={
-      input: '',
-      imageUrl: '',
-      celebName: {},
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      }
-    }
+    this.state=initialState;
   }
   loadUser = (data) => {
     this.setState({user: {
@@ -77,14 +76,18 @@ class App extends Component {
   }
   onButtonSubmit = () =>{
     this.setState({imageUrl: this.state.input});
-    app.models
-      .predict(
-        Clarifai.CELEBRITY_MODEL,
-        this.state.input)
+        fetch('https://celeblookalike.herokuapp.com/imageurl', {
+          method: 'post',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            input: this.state.input
+          })
+        })
+        .then(response => response.json())
         .then(response => {
           console.log('hi', response)
           if (response) {
-            fetch('http://localhost:3000/image', {
+            fetch('https://celeblookalike.herokuapp.com/image', {
               method: 'put',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
@@ -95,6 +98,7 @@ class App extends Component {
               .then(count => {
                 this.setState(Object.assign(this.state.user, { entries: count}))
               })
+              .catch(console.log)//error handling that happen without us knowing
   
           }
           this.displayCelebName(this.displayData(response))
@@ -103,7 +107,7 @@ class App extends Component {
   }
   onRouteChange = (route)=>{
     if(route === 'signout'){
-      this.setState({isSignin:false})
+      this.setState(initialState)//so other users dont see where users left off
     }else if(route === 'home'){
       this.setState({isSignedIn: true})
     }
@@ -141,3 +145,4 @@ class App extends Component {
   }
 }
 export default App;
+ 
