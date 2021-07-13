@@ -78,18 +78,17 @@ class App extends Component {
     this.setState({imageUrl: this.state.input});
         fetch('https://celebritylookalike.herokuapp.com/imageurl', {
           method: 'post',
-          headers: {'Content-Type': 'application/json','Access-Control-Allow-Origin': true},
+          headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
             input: this.state.input
           })
         })
         .then(response => response.json())
         .then(response => {
-          console.log('hi', response)
           if (response) {
             fetch('https://celebritylookalike.herokuapp.com/image', {
               method: 'put',
-              headers: {'Content-Type': 'application/json','Access-Control-Allow-Origin': true},
+              headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
                 id: this.state.user.id
               })
