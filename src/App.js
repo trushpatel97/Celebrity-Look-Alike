@@ -74,32 +74,33 @@ class App extends Component {
     this.setState({input: event.target.value});
     console.log(event.target.value);
   }
-  onButtonSubmit = () => {
+  onButtonSubmit = () =>{
     this.setState({imageUrl: this.state.input});
-      fetch('https://celebritylookalike.herokuapp.com/imageurl', {
-        method: 'post',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          input: this.state.input
-        })
-      })
-      .then(response => response.json())
-      .then(response => {
-        if (response) {
-          fetch('https://celebritylookalike.herokuapp.com/image', {
-            method: 'put',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-              id: this.state.user.id
-            })
+        fetch('https://celeblookalike.herokuapp.com/imageurl', {
+          method: 'post',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            input: this.state.input
           })
-            .then(response => response.json())
-            .then(count => {
-              this.setState(Object.assign(this.state.user, { entries: count}))
+        })
+        .then(response => response.json())
+        .then(response => {
+          console.log('hi', response)
+          if (response) {
+            fetch('https://celeblookalike.herokuapp.com/image', {
+              method: 'put',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({
+                id: this.state.user.id
+              })
             })
-            .catch(console.log)
-
-        }
+              .then(response => response.json())
+              .then(count => {
+                this.setState(Object.assign(this.state.user, { entries: count}))
+              })
+              .catch(console.log)//error handling that happen without us knowing
+  
+          }
           this.displayCelebName(this.displayData(response))
         })
         .catch(err => console.log(err));
