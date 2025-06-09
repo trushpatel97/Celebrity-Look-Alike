@@ -96,7 +96,12 @@ class App extends Component {
             })
               .then(response => response.json())
               .then(count => {
-                this.setState(Object.assign(this.state.user, { entries: count}))
+                this.setState(prevState => ({
+                user: {
+                  ...prevState.user,
+                  entries: count.entries // Assuming backend returns {entries: value}
+                }
+              }))
               })
               .catch(console.log)//error handling that happen without us knowing
   
