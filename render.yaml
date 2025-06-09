@@ -1,9 +1,13 @@
 services:
   - type: web
-    name: celebrity-look-alike-frontend
+    name: celebrity-look-alike
     env: static
     buildCommand: npm install && npm run build
     staticPublishPath: ./build
     envVars:
       - key: NODE_VERSION
-        value: 18.x
+        value: 16.14.0
+    routes:
+      - type: rewrite
+        source: '/*'
+        destination: '/index.html'
