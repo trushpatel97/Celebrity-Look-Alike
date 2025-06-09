@@ -1,9 +1,42 @@
-.form{
+.form {
     width: 90%; /* Use percentage for flexibility */
     max-width: 700px; /* Set a maximum width for larger screens */
     margin-left: auto; /* Center the form */
     margin-right: auto; /* Center the form */
+    display: flex; /* Enable flexbox for input and button */
+    flex-wrap: wrap; /* Allow items to wrap */
+    align-items: center; /* Align items vertically */
 }
+
+/* Target the 'Paste URL...' paragraph specifically if it's always the first p in ImageLinkForm */
+/* Or give it a unique class in the JSX if more precision is needed */
+.ImageLinkForm-prompt {
+    /* Assuming this class is added to the 'Paste URL...' p tag */
+    /* Tachyons f3 is 1.5rem. Let's make it smaller on mobile */
+    font-size: 1.25rem; /* Default for larger screens if needed */
+    text-align: center; /* Ensure it's centered */
+}
+
 .opacitychange{
-    background: rgb(255,255,255,0.9);
+    background: rgba(255,255,255,0.9); /* Corrected alpha */
+}
+
+@media only screen and (max-width: 600px) {
+    .form {
+        flex-direction: column; /* Stack input and button */
+    }
+
+    .form input[type='tex'], /* More specific selector for the input */
+    .form button {
+        width: 100%; /* Make them full width */
+        margin-bottom: 10px; /* Add space between stacked items */
+    }
+
+    .form button {
+        margin-bottom: 0; /* No bottom margin for the last item */
+    }
+
+    .ImageLinkForm-prompt {
+        font-size: 1.1rem; /* Smaller font for mobile */
+    }
 }

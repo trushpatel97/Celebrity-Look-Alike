@@ -26,4 +26,7 @@
     .mt0 {
         margin-top: 0;
     }
+    .Tilt {
+        margin-bottom: 1rem; /* Add space below logo */
+    }
 }

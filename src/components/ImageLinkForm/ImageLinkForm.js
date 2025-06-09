@@ -3,7 +3,7 @@ import './ImageLinkForm.css';
 const ImageLinkForm = ({onInputChange,onButtonSubmit,celebName,imageUrl}) => {
     return (
         <div>
-            <p className='f3 form center pa br3 shadow-4 opacitychange'>
+            <p className='f3 form center pa br3 shadow-4 opacitychange ImageLinkForm-prompt'>
                 {'Paste URL to detect face'}
             </p>
             <div className='center'>
@@ -17,7 +17,7 @@ const ImageLinkForm = ({onInputChange,onButtonSubmit,celebName,imageUrl}) => {
             <p className="form center pa2 br3 shadow-4 opacitychange">
                     {celebName.results}
             </p>
-            <img id='inputimage' alt='' src={imageUrl} width='500px' heigh='auto'/>
+
         </div>
     );
 }   

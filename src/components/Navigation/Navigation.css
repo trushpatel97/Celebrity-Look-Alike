@@ -13,7 +13,8 @@
 @media only screen and (max-width: 600px) {
   .main-nav {
     flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items when stacked */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically if nav takes height */
   }
 
   .main-nav p {
