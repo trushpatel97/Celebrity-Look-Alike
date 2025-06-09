@@ -1,0 +1,22 @@
+/* Base styles for navigation */
+.main-nav {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0; /* Add some padding */
+}
+
+.main-nav p {
+  margin: 0 10px; /* Adjust spacing between nav items */
+}
+
+/* Small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .main-nav {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items when stacked */
+  }
+
+  .main-nav p {
+    padding: 10px 0; /* Add padding for touch targets */
+  }
+}

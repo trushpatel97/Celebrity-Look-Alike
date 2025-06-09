@@ -1,5 +1,8 @@
 .form{
-    width: 700px;
+    width: 90%; /* Use percentage for flexibility */
+    max-width: 700px; /* Set a maximum width for larger screens */
+    margin-left: auto; /* Center the form */
+    margin-right: auto; /* Center the form */
 }
 .opacitychange{
     background: rgb(255,255,255,0.9);

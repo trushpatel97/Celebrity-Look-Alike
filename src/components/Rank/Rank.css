@@ -1,0 +1,10 @@
+/* Small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  /* Adjust Tachyons font sizes for better readability on small screens */
+  .f1 {
+    font-size: 2rem; /* Tachyons f1 is 3rem */
+  }
+  .f3 {
+    font-size: 1.25rem; /* Tachyons f3 is 1.5rem */
+  }
+}

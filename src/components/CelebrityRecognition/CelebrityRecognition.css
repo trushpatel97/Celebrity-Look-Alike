@@ -1,0 +1,26 @@
+.center {
+    /* This class is already defined globally in App.css */
+    /* We can add more specific centering or container styles here if needed */
+    margin-top: 20px; /* Add some space above the image */
+    margin-bottom: 20px; /* Add some space below the image */
+}
+
+#inputimage {
+    max-width: 90%; /* Ensure image doesn't overflow its container, leave some padding */
+    height: auto;   /* Maintain aspect ratio */
+    display: block; /* Remove extra space below inline images */
+    margin-left: auto; /* Center the image if its container is wider */
+    margin-right: auto; /* Center the image if its container is wider */
+    border: 1px solid #ddd; /* Optional: adds a light border */
+    border-radius: 4px;  /* Optional: slightly rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: subtle shadow */
+}
+
+/* Small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    #inputimage {
+        max-width: 100%; /* Allow image to take full width of its container on small screens */
+        /* You could also set a max-height here if images become too tall */
+        /* max-height: 300px; */
+    }
+}

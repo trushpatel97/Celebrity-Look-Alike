@@ -1,4 +1,29 @@
-.Tilt{
-    background: rgb(255,255,255,0.5);
+.Tilt {
+    background: rgba(255,255,255,0.5); /* Corrected alpha value */
     z-index: 1;
+    width: 100px; /* Base width */
+    height: 100px; /* Base height */
+    display: flex; /* For centering the image */
+    align-items: center; /* For centering the image */
+    justify-content: center; /* For centering the image */
+}
+
+.Tilt-inner img {
+    padding-top: 5px; /* Maintain original padding */
+    max-width: 80%; /* Ensure image scales within the Tilt component */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .Tilt {
+        width: 70px; /* Smaller size for phones */
+        height: 70px; /* Smaller size for phones */
+    }
+    .ma4 {
+        margin: 1rem; /* Tachyons 'ma4' is 2rem, reduce for smaller screens */
+    }
+    .mt0 {
+        margin-top: 0;
+    }
 }

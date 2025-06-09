@@ -16,3 +16,29 @@ background: radial-gradient(circle, rgba(2,0,36,0.8830882694874825) 0%, rgba(0,0
   display: flex;
   justify-content: center;
 }
+
+/* Common Breakpoints for Responsiveness */
+
+/* Small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  /* Add mobile-specific styles here */
+  .App {
+    /* Example: Adjust padding for smaller screens */
+    /* padding: 10px; */
+  }
+}
+
+/* Medium devices (tablets, 600px to 768px) */
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+  /* Add tablet-specific styles here */
+}
+
+/* Large devices (desktops, 768px and up) */
+@media only screen and (min-width: 768px) {
+  /* Add desktop-specific styles here */
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  /* Add styles for very large screens here */
+}

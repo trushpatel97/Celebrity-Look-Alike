@@ -1,3 +1,16 @@
 .bcolor{
     background: white;
 }
+
+/* Small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  /* Adjust legend font size if using Tachyons f1, which can be large */
+  .f1 {
+    font-size: 2rem; /* Tachyons f1 is 3rem, reduce for smaller screens */
+  }
+
+  /* Example: Adjust padding for the main form container if needed */
+  /* .br3.ba.mv4 {
+    padding: 1rem; 
+  }*/
+}
