@@ -2,11 +2,15 @@ services:
   - type: web
     name: celebrity-look-alike
     env: static
-    buildCommand: npm run build
-    staticPublishPath: ./build
     envVars:
       - key: NODE_VERSION
         value: 16.14.0
+      - key: NPM_CONFIG_LEGACY_PEER_DEPS
+        value: "true"
+    buildCommand: |
+      npm install
+      npm run build
+    staticPublishPath: ./build
     routes:
       - type: rewrite
         source: '/*'
