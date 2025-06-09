@@ -7,8 +7,10 @@ services:
         value: 16.14.0
       - key: NPM_CONFIG_LEGACY_PEER_DEPS
         value: "true"
+      - key: CI
+        value: "false"
     buildCommand: |
-      npm install
+      npm install --legacy-peer-deps
       npm run build
     staticPublishPath: ./build
     routes:
