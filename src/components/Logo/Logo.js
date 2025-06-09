@@ -1,5 +1,5 @@
 import React from 'react';
-import Tilt from 'react-tilt'
+import Tilt from 'react-parallax-tilt'
 import './Logo.css'
 import person from './qmark.png';
 const Logo = () => {

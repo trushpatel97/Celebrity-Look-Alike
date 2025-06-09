@@ -10,7 +10,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "react-tilt": "^0.1.4",
+    "react-parallax-tilt": "^1.7.170",
     "react-tsparticles": "^1.27.0",
     "tsparticles": "^1.27.0",
     "tachyons": "^4.12.0",
