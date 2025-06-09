@@ -94,11 +94,21 @@ class App extends Component {
                 id: this.state.user.id
               })
             })
-              .then(response => response.json())
-              .then(count => {
-                this.setState(Object.assign(this.state.user, { entries: count}))
+              .then(response => {
+                if (!response.ok) {
+                  response.json().then(err => console.error('Error from /image endpoint:', err)).catch(() => console.error('Error from /image endpoint: Could not parse error JSON. Status:', response.status));
+                  throw new Error(`API call to /image failed with status: ${response.status}`);
+                }
+                return response.json();
               })
-              .catch(console.log)//error handling that happen without us knowing
+              .then(count => {
+                if (typeof count === 'number') {
+                  this.setState(Object.assign(this.state.user, { entries: count }));
+                } else {
+                  console.error('Received non-numeric count from /image:', count);
+                }
+              })
+              .catch(err => console.error('Error during /image fetch or processing:', err)); 
   
           }
           this.displayCelebName(this.displayData(response))
