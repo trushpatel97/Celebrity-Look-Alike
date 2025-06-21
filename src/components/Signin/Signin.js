@@ -18,7 +18,7 @@ class Signin extends React.Component {
   }
 
   onSubmitSignIn = () => {
-    fetch('https://celebritylookalike.herokuapp.com/signin', {
+    fetch('https://celebrity-backend-cuzl.onrender.com/signin', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
