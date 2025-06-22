@@ -137,7 +137,13 @@ class App extends Component {
             })
               .then(response => response.json())
               .then(count => {
-                this.setState(Object.assign(this.state.user, { entries: count}))
+                // Fix: update user state correctly
+                this.setState(prevState => ({
+                  user: {
+                    ...prevState.user,
+                    entries: count.entries || count // handle both {entries: x} and x
+                  }
+                }));
               })
               .catch(console.log)
   
