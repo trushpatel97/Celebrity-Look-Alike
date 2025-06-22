@@ -108,15 +108,15 @@ class App extends Component {
         .then(response => response.json())
         .then(response => {
           console.log('hi', response)
-          // Check for concepts or regions
+          // Accept if concepts exist and have length, even if regions is empty
           let hasConcepts = false;
           if (
             response.outputs &&
             response.outputs[0] &&
             response.outputs[0].data &&
             (
-              (response.outputs[0].data.regions && response.outputs[0].data.regions[0] && response.outputs[0].data.regions[0].data && response.outputs[0].data.regions[0].data.concepts) ||
-              response.outputs[0].data.concepts
+              (Array.isArray(response.outputs[0].data.concepts) && response.outputs[0].data.concepts.length > 0) ||
+              (Array.isArray(response.outputs[0].data.regions) && response.outputs[0].data.regions.length > 0 && response.outputs[0].data.regions[0].data && Array.isArray(response.outputs[0].data.regions[0].data.concepts) && response.outputs[0].data.regions[0].data.concepts.length > 0)
             )
           ) {
             hasConcepts = true;
