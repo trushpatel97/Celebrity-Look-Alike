@@ -26,13 +26,23 @@ class Signin extends React.Component {
         password: this.state.signInPassword
       })
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then(text => text ? JSON.parse(text) : {})
       .then(user => {
         if (user.id) {
           this.props.loadUser(user)
           this.props.onRouteChange('home');
         }
       })
+      .catch(error => {
+        // Optionally, set an error state or show a message
+        console.log('Signin error:', error);
+      });
   }
 
   render() {
