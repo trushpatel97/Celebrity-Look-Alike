@@ -38,7 +38,10 @@ const initialState = {
 class App extends Component {
   constructor(){
     super();
-    this.state=initialState;
+    this.state={
+      ...initialState,
+      error: '' // Add error to state
+    };
   }
   loadUser = (data) => {
     this.setState({user: {
@@ -51,6 +54,10 @@ class App extends Component {
   }
   
   displayData = data =>{
+    // Validate response structure
+    if (!data.outputs || !data.outputs[0] || !data.outputs[0].data || !data.outputs[0].data.regions || !data.outputs[0].data.regions[0] || !data.outputs[0].data.regions[0].data || !data.outputs[0].data.regions[0].data.concepts) {
+      return { results: 'Unable to process image. Please try a different image URL.' };
+    }
     for(let i=0;i<10;i++){
       const name = data.outputs[0].data.regions[0].data.concepts[i].name;
       let probability = data.outputs[0].data.regions[0].data.concepts[i].value;
@@ -75,7 +82,7 @@ class App extends Component {
     console.log(event.target.value);
   }
   onButtonSubmit = () =>{
-    this.setState({imageUrl: this.state.input});
+    this.setState({imageUrl: this.state.input, error: ''});
         fetch('https://celebrity-backend-cuzl.onrender.com/imageurl', {
           method: 'post',
           headers: {'Content-Type': 'application/json'},
@@ -86,8 +93,12 @@ class App extends Component {
         .then(response => response.json())
         .then(response => {
           console.log('hi', response)
-          if (response) {
-            fetch('https://celebrity-backend-cuzl.onrender.com/image', {
+          // Validate response before proceeding
+          if (!response.outputs || !response.outputs[0] || !response.outputs[0].data || !response.outputs[0].data.regions || !response.outputs[0].data.regions[0]) {
+            this.setState({ error: 'Unable to process image. Please try a different image URL.' });
+            return;
+          }
+          fetch('https://celebrity-backend-cuzl.onrender.com/image', {
               method: 'put',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
@@ -100,10 +111,12 @@ class App extends Component {
               })
               .catch(console.log)//error handling that happen without us knowing
   
-          }
           this.displayCelebName(this.displayData(response))
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.setState({ error: 'Network error. Please try again.' });
+          console.log(err);
+        });
   }
   onRouteChange = (route)=>{
     if(route === 'signout'){
@@ -114,11 +127,14 @@ class App extends Component {
     this.setState({route: route})
   }
   render(){
-    const { isSignedIn, imageUrl, route, celebName } = this.state;
+    const { isSignedIn, imageUrl, route, celebName, error } = this.state;
     return (
       <div className="App">
       <ParticlesJS/>
         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
+        { error && (
+          <div style={{ color: 'red', margin: '10px' }}>{error}</div>
+        )}
         { route === 'home'
           ? <div>
               <Logo />
@@ -145,4 +161,3 @@ class App extends Component {
   }
 }
 export default App;
- 
