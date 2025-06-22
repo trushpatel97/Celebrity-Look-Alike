@@ -53,24 +53,39 @@ class App extends Component {
     }})
   }
   
-  displayData = data =>{
-    // Validate response structure
-    if (!data.outputs || !data.outputs[0] || !data.outputs[0].data || !data.outputs[0].data.regions || !data.outputs[0].data.regions[0] || !data.outputs[0].data.regions[0].data || !data.outputs[0].data.regions[0].data.concepts) {
-      return { results: 'Unable to process image. Please try a different image URL.' };
+  displayData = data => {
+    // Try to get concepts from regions first
+    let concepts = null;
+    if (
+      data.outputs &&
+      data.outputs[0] &&
+      data.outputs[0].data &&
+      data.outputs[0].data.regions &&
+      data.outputs[0].data.regions[0] &&
+      data.outputs[0].data.regions[0].data &&
+      data.outputs[0].data.regions[0].data.concepts
+    ) {
+      concepts = data.outputs[0].data.regions[0].data.concepts;
+    } else if (
+      data.outputs &&
+      data.outputs[0] &&
+      data.outputs[0].data &&
+      data.outputs[0].data.concepts
+    ) {
+      // Fallback: concepts at root data
+      concepts = data.outputs[0].data.concepts;
     }
-    for(let i=0;i<10;i++){
-      const name = data.outputs[0].data.regions[0].data.concepts[i].name;
-      let probability = data.outputs[0].data.regions[0].data.concepts[i].value;
-      probability*=100;
-      console.log(name.toUpperCase() + " " + probability.toFixed(5) + "%");
+    if (concepts && concepts.length > 0) {
+      // Build a list of celebrity names and confidence values
+      const results = concepts.slice(0, 10).map(c => {
+        const name = titleCase(c.name);
+        const confidence = (c.value * 100).toFixed(2) + '%';
+        return `${name} (${confidence})`;
+      }).join(', ');
+      return { results };
     }
-    let p1 = data.outputs[0].data.regions[0].data.concepts[0].name;
-    p1=titleCase(p1);
-    let p2 = data.outputs[0].data.regions[0].data.concepts[0].value;
-    const name = `Guessed ${p1}`;
-    const prob = ` with a ${p2.toFixed(5)*100}% resemblance`
-    const results = name+prob;
-    return {results};
+    // If neither regions nor concepts are present, show error
+    return { results: 'Unable to process image. Please try a different image URL.' };
   }
   displayCelebName = celebName =>{
     this.setState({
@@ -93,8 +108,20 @@ class App extends Component {
         .then(response => response.json())
         .then(response => {
           console.log('hi', response)
-          // Validate response before proceeding
-          if (!response.outputs || !response.outputs[0] || !response.outputs[0].data || !response.outputs[0].data.regions || !response.outputs[0].data.regions[0]) {
+          // Check for concepts or regions
+          let hasConcepts = false;
+          if (
+            response.outputs &&
+            response.outputs[0] &&
+            response.outputs[0].data &&
+            (
+              (response.outputs[0].data.regions && response.outputs[0].data.regions[0] && response.outputs[0].data.regions[0].data && response.outputs[0].data.regions[0].data.concepts) ||
+              response.outputs[0].data.concepts
+            )
+          ) {
+            hasConcepts = true;
+          }
+          if (!hasConcepts) {
             this.setState({ error: 'Unable to process image. Please try a different image URL.' });
             return;
           }
@@ -109,7 +136,7 @@ class App extends Component {
               .then(count => {
                 this.setState(Object.assign(this.state.user, { entries: count}))
               })
-              .catch(console.log)//error handling that happen without us knowing
+              .catch(console.log)
   
           this.displayCelebName(this.displayData(response))
         })
