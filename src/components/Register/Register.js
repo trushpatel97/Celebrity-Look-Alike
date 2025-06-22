@@ -35,6 +35,8 @@ class Register extends React.Component {
       .then(response => response.json())
       .then(user => {
         if (user.id) {
+          // Save user session to localStorage
+          localStorage.setItem('user', JSON.stringify(user));
           this.props.loadUser(user)
           this.props.onRouteChange('home');
         }

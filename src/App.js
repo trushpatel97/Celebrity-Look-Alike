@@ -38,12 +38,19 @@ const initialState = {
 class App extends Component {
   constructor(){
     super();
-    this.state={
+    // Try to load user from localStorage
+    const savedUser = localStorage.getItem('user');
+    this.state = {
       ...initialState,
-      error: '' // Add error to state
+      error: '',
+      user: savedUser ? JSON.parse(savedUser) : initialState.user,
+      isSignedIn: !!savedUser,
+      route: savedUser ? 'home' : 'signin'
     };
   }
   loadUser = (data) => {
+    // Save user session to localStorage
+    localStorage.setItem('user', JSON.stringify(data));
     this.setState({user: {
       id: data.id,
       name: data.name,
