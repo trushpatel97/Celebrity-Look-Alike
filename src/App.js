@@ -54,29 +54,31 @@ class App extends Component {
   }
   
   displayData = data => {
-    // Try to get concepts from regions first
+    // Accept concepts at root or nested
     let concepts = null;
-    if (
+    if (Array.isArray(data.concepts) && data.concepts.length > 0) {
+      concepts = data.concepts;
+    } else if (
+      data.outputs &&
+      data.outputs[0] &&
+      data.outputs[0].data &&
+      Array.isArray(data.outputs[0].data.concepts) &&
+      data.outputs[0].data.concepts.length > 0
+    ) {
+      concepts = data.outputs[0].data.concepts;
+    } else if (
       data.outputs &&
       data.outputs[0] &&
       data.outputs[0].data &&
       data.outputs[0].data.regions &&
       data.outputs[0].data.regions[0] &&
       data.outputs[0].data.regions[0].data &&
-      data.outputs[0].data.regions[0].data.concepts
+      Array.isArray(data.outputs[0].data.regions[0].data.concepts) &&
+      data.outputs[0].data.regions[0].data.concepts.length > 0
     ) {
       concepts = data.outputs[0].data.regions[0].data.concepts;
-    } else if (
-      data.outputs &&
-      data.outputs[0] &&
-      data.outputs[0].data &&
-      data.outputs[0].data.concepts
-    ) {
-      // Fallback: concepts at root data
-      concepts = data.outputs[0].data.concepts;
     }
     if (concepts && concepts.length > 0) {
-      // Build a list of celebrity names and confidence values
       const results = concepts.slice(0, 10).map(c => {
         const name = titleCase(c.name);
         const confidence = (c.value * 100).toFixed(2) + '%';
@@ -84,7 +86,6 @@ class App extends Component {
       }).join(', ');
       return { results };
     }
-    // If neither regions nor concepts are present, show error
     return { results: 'Unable to process image. Please try a different image URL.' };
   }
   displayCelebName = celebName =>{
