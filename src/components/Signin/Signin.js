@@ -18,32 +18,32 @@ class Signin extends React.Component {
   }
 
   onSubmitSignIn = () => {
-  fetch('https://celebrity-backend-cuzl.onrender.com/signin', {
-    method: 'post',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      email: this.state.signInEmail,
-      password: this.state.signInPassword
+    fetch('https://celebrity-backend-cuzl.onrender.com/signin', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        email: this.state.signInEmail,
+        password: this.state.signInPassword
+      })
     })
-  })
-    .then(response => {
-      if (!response.ok) {
-        // Optionally, set an error state here
-        throw new Error('Sign in failed');
-      }
-      return response.json();
-    })
-    .then(user => {
-      if (user.id) {
-        this.props.loadUser(user)
-        this.props.onRouteChange('home');
-      }
-    })
-    .catch(err => {
-      // Optionally, set an error state here to display a message to the user
-      console.log(err);
-    });
-}
+      .then(response => {
+        if (!response.ok) {
+          // Optionally, set an error state here
+          throw new Error('Sign in failed');
+        }
+        return response.json();
+      })
+      .then(user => {
+        if (user.id) {
+          this.props.loadUser(user);
+          this.props.onRouteChange('home');
+        }
+      })
+      .catch(err => {
+        // Optionally, set an error state here to display a message to the user
+        console.log(err);
+      });
+  }
 
   render() {
     const { onRouteChange } = this.props;
