@@ -108,8 +108,8 @@ class App extends Component {
         .then(response => response.json())
         .then(response => {
           console.log('hi', response)
-          // Accept if concepts exist and have length, even if regions is empty
-          let hasConcepts = false;
+          // Check for concepts in all possible locations
+          let concepts = null;
           if (
             response.outputs &&
             response.outputs[0] &&
@@ -119,9 +119,12 @@ class App extends Component {
               (Array.isArray(response.outputs[0].data.regions) && response.outputs[0].data.regions.length > 0 && response.outputs[0].data.regions[0].data && Array.isArray(response.outputs[0].data.regions[0].data.concepts) && response.outputs[0].data.regions[0].data.concepts.length > 0)
             )
           ) {
-            hasConcepts = true;
+            concepts = response.outputs[0].data.concepts;
+          } else if (Array.isArray(response.concepts) && response.concepts.length > 0) {
+            // Handle backend's new response format
+            concepts = response.concepts;
           }
-          if (!hasConcepts) {
+          if (!concepts) {
             this.setState({ error: 'Unable to process image. Please try a different image URL.' });
             return;
           }
@@ -138,7 +141,8 @@ class App extends Component {
               })
               .catch(console.log)
   
-          this.displayCelebName(this.displayData(response))
+          // Pass concepts to display logic
+          this.displayCelebName(this.displayData({ concepts }))
         })
         .catch(err => {
           this.setState({ error: 'Network error. Please try again.' });
