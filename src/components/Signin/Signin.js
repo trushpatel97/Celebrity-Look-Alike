@@ -28,11 +28,11 @@ class Signin extends React.Component {
     })
       .then(response => {
         if (!response.ok) {
-          // Optionally, set an error state here
           throw new Error('Sign in failed');
         }
-        return response.json();
+        return response.text();
       })
+      .then(text => text ? JSON.parse(text) : {})
       .then(user => {
         if (user.id) {
           this.props.loadUser(user);
